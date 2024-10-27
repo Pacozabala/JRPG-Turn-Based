@@ -8,6 +8,7 @@ public class Character : MonoBehaviour
     public int health, maxHealth;
     public int energy, maxEnergy;
     public int defense, shield;
+    public bool isAlive;
 
     // List of actions that this character can perform
     // You can add more in the editor since actions are serialized
@@ -18,12 +19,7 @@ public class Character : MonoBehaviour
         health = maxHealth;
         energy = maxEnergy;
         shield = 0;
-
-        // Initialize the list of actions
-        actions = new List<Action>
-        {
-            
-        };
+        isAlive = true;
     }
 
     // Methods to handle damage and healing
@@ -36,7 +32,11 @@ public class Character : MonoBehaviour
         }
         health -=  damage;
         shield = 0;
-        if (health < 0) health = 0;
+        if (health < 0) 
+        {
+            health = 0;
+            isAlive = false; 
+        }
     }
 
     public void Heal(int amount)
@@ -48,6 +48,16 @@ public class Character : MonoBehaviour
     public void Block()
     {
         shield += defense;
+    }
+
+    public void RestoreEnergy(int amount = 0) 
+    {
+        if (amount == 0) {
+            energy += maxEnergy/10;
+        }
+        else {
+            energy += amount;
+        }
     }
 }
 

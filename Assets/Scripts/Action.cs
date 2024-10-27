@@ -27,7 +27,11 @@ public class Action
     public void Execute(Character user, List<Character> targets)
     {
         user.energy -= cost;
-        foreach (var target in targets)
+        if (block) {
+            user.Block();
+        }
+
+        foreach (Character target in targets)
         {
             if (damage > 0 && heal == false)
             {
@@ -36,10 +40,6 @@ public class Action
             else if (heal)
             {
                 target.Heal(damage);
-            } 
-            else if (block)
-            {
-                user.Block();
             }
         }
     }
