@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets/Scripts/Character.cs" />
-    <Compile Include="Assets/Scripts/BattleManager.cs" />
+    <Compile Include="Assets/Scripts/BattleSystem.cs" />
     <Compile Include="Assets/Scripts/ActionButtonController.cs" />
     <Compile Include="Assets/Scripts/Action.cs" />
     <Compile Include="Assets/Scripts/CharacterButtonController.cs" />

@@ -126,17 +126,29 @@ MonoBehaviour:
   maxEnergy: 25
   defense: 15
   shield: 0
-  isAlive: 0
+  recoveryTurns: 0
+  poisonTurns: 0
+  isPoisoned: 0
+  isRecovering: 0
   actions:
   - actionName: Spook
-    cost: 3
-    damage: 8
+    cost: 1
+    damage: 2
     heal: 0
     block: 0
     aoe: 1
+    poison: 0
   - actionName: Spooky Healing
     cost: 6
     damage: 11
     heal: 1
     block: 0
     aoe: 0
+    poison: 0
+  - actionName: Nightmare
+    cost: 15
+    damage: 15
+    heal: 0
+    block: 0
+    aoe: 0
+    poison: 0

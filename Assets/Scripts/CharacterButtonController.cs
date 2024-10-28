@@ -15,12 +15,15 @@ public class CharacterButtonController : MonoBehaviour
     public TMP_Text nameText, hpText, energyText;
     public Image hpImg, energyImg;
     public float hpMax, hpCurrent, energyMax, energyCurrent;
+    public bool isInteractable;
 
     private void OnEnable() {
+        if (character != null) {
         UpdateContent();
+        }
     }
     
-    public void Setup() 
+    public void Setup(bool interactable) 
     {
         characterScript = character.GetComponent<Character>();
         nameText.text = characterScript.characterName;
@@ -28,35 +31,37 @@ public class CharacterButtonController : MonoBehaviour
         hpMax = characterScript.maxHealth;
         hpCurrent = hpMax;
         hpImg.fillAmount = hpCurrent/hpMax;
-        hpText.text = String.Format("{0}/{1}", hpCurrent, hpMax);
+        hpText.text = string.Format("{0}/{1}", hpCurrent, hpMax);
 
         energyMax = characterScript.maxEnergy;
         energyCurrent = energyMax;
         energyImg.fillAmount = energyCurrent/energyMax;
-        energyText.text = String.Format("{0}/{1}", energyCurrent, energyMax);
+        energyText.text = string.Format("{0}/{1}", energyCurrent, energyMax);
 
+        if (!interactable) {
+            thisButton.interactable = false;
+        }
+        isInteractable = interactable;
     }
     public void UpdateContent() 
     {
         hpCurrent = characterScript.health;
         hpImg.fillAmount = hpCurrent/hpMax;
-        hpText.text = String.Format("{0}/{1}", hpCurrent, hpMax);
-        if (!characterScript.isAlive) {
+        hpText.text = string.Format("{0}/{1}", hpCurrent, hpMax);
+        if (characterScript.health == 0) {
             thisButton.interactable = false;
-            return;
+        }
+        else if (characterScript.health > 0 && isInteractable) {
+            thisButton.interactable = true;
         }
 
         energyCurrent = characterScript.energy;
         energyImg.fillAmount = energyCurrent/energyMax;
-        energyText.text = String.Format("{0}/{1}", energyCurrent, energyMax);
-    }
-
-    public void MakeUniteractable() {
-        thisButton.interactable = false;
+        energyText.text = string.Format("{0}/{1}", energyCurrent, energyMax);
     }
 
     public void TransmitCharacter()
     {
-        battleManager.SelectTarget(characterScript);
+        battleManager.AssignTarget(characterScript);
     }
 }

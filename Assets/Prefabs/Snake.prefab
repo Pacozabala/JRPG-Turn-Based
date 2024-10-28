@@ -126,17 +126,29 @@ MonoBehaviour:
   maxEnergy: 23
   defense: 8
   shield: 0
-  isAlive: 0
+  recoveryTurns: 0
+  poisonTurns: 0
+  isPoisoned: 0
+  isRecovering: 0
   actions:
-  - actionName: Bite
-    cost: 4
-    damage: 9
+  - actionName: Tail Strike
+    cost: 1
+    damage: 4
     heal: 0
     block: 0
     aoe: 0
+    poison: 0
   - actionName: Slither Back
-    cost: 6
+    cost: 4
     damage: 0
     heal: 0
     block: 1
     aoe: 0
+    poison: 0
+  - actionName: Venomous Bite
+    cost: 6
+    damage: 6
+    heal: 0
+    block: 0
+    aoe: 0
+    poison: 1

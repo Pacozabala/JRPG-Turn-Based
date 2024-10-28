@@ -105,26 +105,32 @@ MonoBehaviour:
   maxEnergy: 30
   defense: 10
   shield: 0
-  isAlive: 0
+  recoveryTurns: 0
+  poisonTurns: 0
+  isPoisoned: 0
+  isRecovering: 0
   actions:
-  - actionName: Light Attack
-    cost: 3
+  - actionName: Stab
+    cost: 1
     damage: 10
     heal: 0
     block: 0
     aoe: 0
+    poison: 0
   - actionName: Wide Attack
-    cost: 5
-    damage: 15
+    cost: 10
+    damage: 8
     heal: 0
     block: 0
     aoe: 1
-  - actionName: Block
-    cost: 3
+    poison: 0
+  - actionName: Guard
+    cost: 8
     damage: 0
     heal: 0
     block: 1
-    aoe: 0
+    aoe: 1
+    poison: 0
 --- !u!95 &2851327430231903904
 Animator:
   serializedVersion: 5
