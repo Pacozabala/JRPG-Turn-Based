@@ -29,7 +29,7 @@ public class BattleSystem : MonoBehaviour
     public TMP_Text dialogueText, a1Text, a2Text, a3Text;
     public List<GameObject> allyList;
     public List<GameObject> enemyList;
-    public bool hasActed, hasSelected, playerActionRunning, awaitingConfirmation, actionConfirmed;
+    public bool hasActed, hasSelected, playerActionRunning, awaitingConfirmation, actionConfirmed, actionCancelled;
 
     void Start()
     {
@@ -276,13 +276,17 @@ public class BattleSystem : MonoBehaviour
         }
 
         playerActionRunning = true;
+        actionCancelled = false;
         DisableActionSelection();
         List<Character> targets = new List<Character>();
 
         if (chosenAction.aoe && !chosenAction.heal && !chosenAction.block) {
             awaitingConfirmation = true;
             dialogueText.text = string.Format("You have chosen to use {0}. Confirm?", chosenAction.actionName);
-            yield return new WaitUntil(HasActionConfirmed);
+            yield return new WaitUntil(HasActionConfirmedOrCancelled);
+            if (actionCancelled) {
+                yield break;
+            }
 
             foreach (GameObject enemy in enemyList) 
             {
@@ -299,7 +303,10 @@ public class BattleSystem : MonoBehaviour
             {
                 awaitingConfirmation = true;
                 dialogueText.text = string.Format("You have chosen to use {0}. Confirm?", chosenAction.actionName);
-                yield return new WaitUntil(HasActionConfirmed);
+                yield return new WaitUntil(HasActionConfirmedOrCancelled);
+                if (actionCancelled) {
+                    yield break;
+                }
 
                 foreach (GameObject ally in allyList) 
                 {
@@ -313,11 +320,17 @@ public class BattleSystem : MonoBehaviour
             {
                 EnableTargetSelect(isAlly: true);
                 yield return new WaitUntil(HasSelected);
+                if (actionCancelled) {
+                    yield break;
+                }
 
                 awaitingConfirmation = true;
                 dialogueText.text = string.Format("You have chosen to use {0} on {1}. Confirm?", 
                     chosenAction.actionName, activeTarget.characterName);
-                yield return new WaitUntil(HasActionConfirmed);
+                yield return new WaitUntil(HasActionConfirmedOrCancelled);
+                if (actionCancelled) {
+                    yield break;
+                }
 
                 targets.Add(activeTarget);
                 chosenAction.Execute(activeAlly, targets);
@@ -329,7 +342,10 @@ public class BattleSystem : MonoBehaviour
         {
             awaitingConfirmation = true;
             dialogueText.text = string.Format("You have chosen to use {0}. Confirm?", chosenAction.actionName);
-            yield return new WaitUntil(HasActionConfirmed);
+            yield return new WaitUntil(HasActionConfirmedOrCancelled);
+            if (actionCancelled) {
+                yield break;
+            }
 
             if (chosenAction.aoe) 
             {
@@ -354,11 +370,17 @@ public class BattleSystem : MonoBehaviour
         {
             EnableTargetSelect(isAlly: false);
             yield return new WaitUntil(HasSelected);
+            if (actionCancelled) {
+                yield break;
+            }
 
             awaitingConfirmation = true;
             dialogueText.text = string.Format("You have chosen to use {0} on {1}. Confirm?", 
                 chosenAction.actionName, activeTarget.characterName);
-            yield return new WaitUntil(HasActionConfirmed);
+            yield return new WaitUntil(HasActionConfirmedOrCancelled);
+            if (actionCancelled) {
+                yield break;
+            }
 
             targets.Add(activeTarget);
             chosenAction.Execute(activeAlly, targets);
@@ -384,8 +406,13 @@ public class BattleSystem : MonoBehaviour
         return hasSelected;
     }
 
-    public bool HasActionConfirmed() {
-        return actionConfirmed;
+    public bool HasActionConfirmedOrCancelled() {
+        if (actionConfirmed || actionCancelled) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     public void EnableTargetSelect(bool isAlly) {
@@ -488,6 +515,7 @@ public class BattleSystem : MonoBehaviour
             awaitingConfirmation = false;
             hasSelected = false;
             DisableTargetSelect();
+            actionCancelled = true;
             EnableActionSelection();
             dialogueText.text = string.Format("You cancelled your action. Choose again!");
         }
