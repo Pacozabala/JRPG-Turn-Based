@@ -121,7 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Dancing Girl
   health: 0
-  maxHealth: 40
+  maxHealth: 5
   energy: 0
   maxEnergy: 40
   defense: 5

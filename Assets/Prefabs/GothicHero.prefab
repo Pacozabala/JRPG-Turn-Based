@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Gothic Hero
   health: 0
-  maxHealth: 50
+  maxHealth: 5
   energy: 0
   maxEnergy: 30
   defense: 10

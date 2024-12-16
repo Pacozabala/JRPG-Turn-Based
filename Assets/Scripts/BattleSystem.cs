@@ -100,6 +100,8 @@ public class BattleSystem : MonoBehaviour
 
         foreach (GameObject ally in allyList)
         {
+            if (state != BattleState.PlayerTurn)
+                yield break;
             activeAlly = ally.GetComponent<Character>();
             ToggleDisplayedStatus(false);
 

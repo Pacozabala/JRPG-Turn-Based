@@ -121,12 +121,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterName: Bird
   health: 0
-  maxHealth: 30
+  maxHealth: 5
   energy: 0
   maxEnergy: 30
   defense: 20
   shield: 0
-  isAlive: 0
+  recoveryTurns: 0
+  poisonTurns: 0
+  isPoisoned: 0
+  isRecovering: 0
   actions:
   - actionName: Peck
     cost: 1
@@ -134,15 +137,18 @@ MonoBehaviour:
     heal: 0
     block: 0
     aoe: 0
+    poison: 0
   - actionName: Fly Up
     cost: 7
     damage: 10
     heal: 0
     block: 1
     aoe: 0
+    poison: 0
   - actionName: Talon Strike
     cost: 12
     damage: 20
     heal: 0
     block: 0
     aoe: 0
+    poison: 0
